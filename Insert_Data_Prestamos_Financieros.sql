@@ -31,3 +31,12 @@ SELECT
 	fecha_constitucion
 FROM db_prestamos_financieros.dbo.personas_juridicas;
 
+-- Insertar Personas Naturales
+SELECT*FROM personas_naturales;
+
+-- Consulta para generar el excel
+SELECT 
+	*, TRIM(LOWER(CONCAT(SUBSTRING(nombres,1,1),apellido_paterno,SUBSTRING(apellido_materno,1,1),'@gmail.com'))) AS 'email'
+FROM db_prestamos_financieros.dbo.personas_naturales;
+
+
