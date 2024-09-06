@@ -39,4 +39,19 @@ SELECT
 	*, TRIM(LOWER(CONCAT(SUBSTRING(nombres,1,1),apellido_paterno,SUBSTRING(apellido_materno,1,1),'@gmail.com'))) AS 'email'
 FROM db_prestamos_financieros.dbo.personas_naturales;
 
+-- Insertar datos en la tabla clientes
+
+SELECT*FROM clientes;
+
+EXEC SP_HELP clientes;
+
+INSERT INTO clientes (persona_id,tipo_cliente,fecha_registro)
+
+SELECT id AS 'persona_id','Persona Jurídica' AS 'tipo_cliente', GETDATE() AS 'fecha_registro'
+FROM personas_juridicas
+UNION
+SELECT id AS 'persona_id','Persona Natural' AS 'tipo_cliente', GETDATE() AS 'fecha_registro'
+FROM personas_naturales;
+
+
 
