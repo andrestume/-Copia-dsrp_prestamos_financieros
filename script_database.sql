@@ -120,7 +120,10 @@ CREATE TABLE prestamos (
 	FOREIGN KEY (tipo_prestamo_id) REFERENCES tipos_prestamo(id),
 	FOREIGN KEY (oficial_credito_id) REFERENCES empleados(id)
 	);
+	GO
 
+	ALTER TABLE prestamos
+	ADD CONSTRAINT CHECK_MONTO CHECK (monto>=10);
 	GO
 
 -- Cuotas
