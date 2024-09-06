@@ -130,7 +130,7 @@ CREATE TABLE cuotas (
 	numero_cuota INT NOT NULL,
 	monto_cuota MONEY NOT NULL,
 	estado VARCHAR(55)NOT NULL,
-	fecha_vencimiento DATETIME DEFAULT GETDATE() NOT NULL
+	fecha_vencimiento DATETIME DEFAULT GETDATE() NOT NULL,
 	FOREIGN KEY (prestamo_id) REFERENCES prestamos(id)
 	);
 
@@ -139,7 +139,7 @@ CREATE TABLE detalles_cuotas_pagos (
 	id INT PRIMARY KEY IDENTITY(1,1),
 	cuota_id INT NOT NULL,
 	pago_id INT NOT NULL,
-	saldo_restante MONEY NOT NULL,
+	saldo_restante MONEY NOT NULL
 	);
 
 ALTER TABLE detalles_cuotas_pagos
