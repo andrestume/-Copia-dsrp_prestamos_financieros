@@ -126,6 +126,12 @@ CREATE TABLE prestamos (
 	ADD CONSTRAINT CHECK_MONTO CHECK (monto>=10);
 	GO
 
+	ALTER TABLE prestamos
+	ALTER COLUMN estado_prestamo INT;
+
+	ALTER TABLE prestamos
+	ADD CONSTRAINT FK_prestamos_estados FOREIGN KEY (estado_prestamo) REFERENCES estados_prestamo(id);
+
 -- Cuotas
 CREATE TABLE cuotas (
 	id INT PRIMARY KEY IDENTITY(1,1),
@@ -136,6 +142,12 @@ CREATE TABLE cuotas (
 	fecha_vencimiento DATETIME DEFAULT GETDATE() NOT NULL,
 	FOREIGN KEY (prestamo_id) REFERENCES prestamos(id)
 	);
+
+	ALTER TABLE cuotas
+	ALTER COLUMN estado INT;
+
+	ALTER TABLE cuotas
+	ADD CONSTRAINT FK_cuotas_estados FOREIGN KEY (estado) REFERENCES estados_cuota(id);
 
 -- detalles_cuotas_pagos
 CREATE TABLE detalles_cuotas_pagos (
@@ -150,3 +162,44 @@ ADD CONSTRAINT fk_detalle_cuotas_pagos_cuotas FOREIGN KEY (cuota_id) REFERENCES 
 
 ALTER TABLE detalles_cuotas_pagos
 ADD CONSTRAINT fk_detalle_cuotas_pagos_pagos FOREIGN KEY (pago_id) REFERENCES pagos(id);
+
+
+CREATE TABLE estados_cuota (
+    id INT PRIMARY KEY IDENTITY(1,1),
+    nombre VARCHAR(100) UNIQUE NOT NULL,
+    descripcion VARCHAR(500) NOT NULL
+);
+GO
+
+INSERT INTO estados_cuota (nombre, descripcion)
+VALUES 
+    ('Pendiente', 'La cuota está programada para ser pagada, pero aún no se ha realizado el pago.'),
+    ('Pagada', 'La cuota ha sido completamente pagada.'),
+    ('Parcialmente Pagada', 'Se ha realizado un pago parcial de la cuota, pero aún queda un saldo pendiente.'),
+    ('Vencida', 'La cuota no ha sido pagada en la fecha de vencimiento y está en mora.'),
+    ('En Mora', 'La cuota ha pasado el período de gracia después de la fecha de vencimiento y no ha sido pagada.'),
+    ('Renegociada', 'Los términos de la cuota han sido renegociados.'),
+    ('Condonada', 'La cuota ha sido perdonada y el cliente ya no está obligado a pagarla.'),
+    ('Reprogramada', 'La fecha de vencimiento de la cuota ha sido movida a una fecha posterior.'),
+    ('Incobrable', 'La cuota ha sido clasificada como incobrable y se ha dado de baja en los libros contables.');
+
+
+CREATE TABLE estados_prestamo (
+    id INT PRIMARY KEY IDENTITY(1,1),
+    nombre VARCHAR(100) UNIQUE NOT NULL,
+    descripcion VARCHAR(500) NOT NULL
+);
+GO
+
+INSERT INTO estados_prestamo (nombre, descripcion)
+VALUES 
+    ('Pendiente de Aprobación', 'El préstamo ha sido solicitado, pero aún no ha sido aprobado.'),
+    ('Aprobado', 'El préstamo ha sido revisado y aprobado, pero los fondos aún no han sido desembolsados.'),
+    ('Desembolsado', 'El préstamo ha sido aprobado y los fondos han sido entregados al cliente.'),
+    ('En Proceso de Pago', 'El préstamo está activo y el cliente está realizando pagos según lo acordado.'),
+    ('Pagado', 'El préstamo ha sido completamente pagado por el cliente.'),
+    ('Vencido', 'El préstamo está vencido, con uno o más pagos atrasados.'),
+    ('En Mora', 'El préstamo ha entrado en un período de morosidad debido a pagos atrasados.'),
+    ('Renegociado', 'Los términos del préstamo han sido renegociados.'),
+    ('Cancelado', 'El préstamo ha sido cancelado antes de ser desembolsado.'),
+    ('Incobrable', 'El préstamo ha sido clasificado como incobrable y se ha dado de baja en los libros contables.');

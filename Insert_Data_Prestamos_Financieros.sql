@@ -135,7 +135,7 @@ SELECT*FROM prestamos;
 DECLARE @Counter INT
 SET @Counter = 0
 
-WHILE @Counter < 400
+WHILE @Counter < 500
 BEGIN
 INSERT INTO prestamos (cliente_id,sucursal_id,tipo_prestamo_id,oficial_credito_id,estado_prestamo_id,monto,tasa_interes,plazo_meses,fecha_inicio)
 SELECT 
@@ -158,9 +158,26 @@ FETCH NEXT 1 ROWS ONLY;
     SET @Counter = @Counter + 1
 END
 
+-- Inserción en la tabla cuotas
 
+SELECT*FROM cuotas;
 
+DECLARE @Counter INT
+SET @Counter = 0
 
-
-SELECT ROUND(RAND()*140,0)+167;
-
+WHILE @Counter < 1000
+BEGIN
+INSERT INTO cuotas(prestamo_id,numero_cuota,monto_cuota,estado,fecha_vencimiento,)
+SELECT 
+  p.id AS 'prestamo_id',
+  p.plazo_meses-(ROUND(RAND()*24,0)+12) AS numero_cuota,
+  p.monto_prestamo/p.plazo_meses AS monto, -- Monto aleatorio
+  DATEADD(MONTH,p.plazo_meses,p.fecha_desembolso) AS 'fecha_vencimiento',
+  'En mora'
+FROM Prestamos p
+CROSS JOIN modalidades_prestamo mp
+ORDER BY NEWID()
+OFFSET 0 ROWS
+FETCH NEXT 1 ROWS ONLY;
+    SET @Counter = @Counter + 1
+END
