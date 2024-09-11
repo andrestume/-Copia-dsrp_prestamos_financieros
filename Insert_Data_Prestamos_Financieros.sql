@@ -107,9 +107,60 @@ WHERE supervisor_id IS NOT NULL;
 
 
 SELECT*FROM  empleados;
+--- Metodos de pago y tipos de prestamo
+
+INSERT INTO metodos_pago (nombre, estado, descripcion)
+VALUES 
+    ('Tarjeta de Crédito', 1, 'Pago realizado con tarjeta de crédito'),
+    ('Transferencia Bancaria', 1, 'Pago realizado mediante transferencia bancaria'),
+    ('Efectivo', 1, 'Pago realizado en efectivo en la sucursal'),
+    ('Cheque', 1, 'Pago realizado mediante cheque bancario'),
+    ('Débito Automático', 1, 'Pago automático desde cuenta bancaria'),
+    ('PayPal', 1, 'Pago realizado a través de PayPal');
+
+INSERT INTO tipos_prestamo (nombre, estado, descripcion)
+VALUES 
+    ('Préstamo Hipotecario', 1, 'Préstamo para la compra de bienes inmuebles'),
+    ('Préstamo Automotriz', 1, 'Préstamo para la compra de vehículos'),
+    ('Préstamo Personal', 1, 'Préstamo para gastos personales no especificados'),
+    ('Préstamo Educativo', 1, 'Préstamo para cubrir gastos educativos'),
+    ('Línea de Crédito', 1, 'Línea de crédito con límite de fondos disponible'),
+    ('Préstamo Comercial', 1, 'Préstamo para empresas o negocios');
+
+
+-- Insertar data en prestamos
+SELECT*FROM prestamos;
+
+
+DECLARE @Counter INT
+SET @Counter = 0
+
+WHILE @Counter < 400
+BEGIN
+INSERT INTO prestamos (cliente_id,sucursal_id,tipo_prestamo_id,oficial_credito_id,estado_prestamo_id,monto,tasa_interes,plazo_meses,fecha_inicio)
+SELECT 
+  c.id AS 'cliente_id',
+  s.id AS 'sucursal_id',
+  tp.id AS 'tipo_prestamo_id',
+  ROUND(RAND()*140,0)+167 AS 'oficial_credito_id',
+  ep.id AS 'estado_prestamos_id',
+  ROUND(RAND() * 100000, 2) AS monto, -- Monto aleatorio
+  ROUND(RAND(),2) AS tasa_interes,-- Tasa de interes en decimales ,
+  ROUND(RAND()*24,0)+12 AS 'plazo_meses', -- Plazo meses,
+  DATEADD(DAY, -ROUND(RAND() * 780,0), GETDATE()) AS 'fecha_inicia' -- Fecha de desembolso en los últimos 2 años
+FROM clientes c
+	CROSS JOIN sucursales s
+	CROSS JOIN tipos_prestamo tp
+	CROSS JOIN estados_prestamo ep
+ORDER BY NEWID()
+OFFSET 0 ROWS
+FETCH NEXT 1 ROWS ONLY;
+    SET @Counter = @Counter + 1
+END
 
 
 
 
 
+SELECT ROUND(RAND()*140,0)+167;
 
