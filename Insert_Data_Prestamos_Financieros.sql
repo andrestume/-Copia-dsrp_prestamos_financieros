@@ -53,5 +53,25 @@ UNION
 SELECT id AS 'persona_id','Persona Natural' AS 'tipo_cliente', GETDATE() AS 'fecha_registro'
 FROM personas_naturales;
 
+--Sucursales
+
+SELECT*FROM sucursales;
+
+-- Insert Empleados
+
+SELECT*FROM empleados;
+SELECT TOP 2*FROM personas_naturales
+ORDER BY id DESC;
+
+INSERT INTO personas_naturales (numero_documento,nombres,apellido_paterno,apellido_materno,direccion,celular,email)
+VALUES
+('12304689','Juan','Perez','Rivera','Lima Cercado','965832147','jperezr@gmail.com'),
+('12054689','Luis','Flores','Valverde','La victoria-Lima','965832047','lfloresf@gmail.com');
+
+INSERT INTO empleados (persona_id,sucursal_id,supervisor_id,fecha_ingreso)
+VALUES
+(33,)
+
+
 
 

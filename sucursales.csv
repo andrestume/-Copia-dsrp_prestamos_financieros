@@ -1,0 +1,17 @@
+﻿id;nombre;direccion;descripcion
+1;La molina;Av. la molina;NULL
+2;Lima-Cercado;Av. Alfonso Ugarte;Inicia funcionamiento en 2024
+3;Banco Central - Lima;Av. Principal 123, Lima;Sucursal principal en Lima
+4;AndesBank - Cusco;Plaza de Armas 456, Cusco;Sucursal en la ciudad histórica de Cusco
+5;SolFinanciero - Arequipa;Calle Comercio 789, Arequipa;Sucursal en la ciudad de Arequipa
+6;AmazonBank - Iquitos;Jirón Amazonas 321, Iquitos;Sucursal en la ciudad amazónica de Iquitos
+7;CóndorBanco - Trujillo;Av. Libertad 567, Trujillo;Sucursal en Trujillo, región norte de Perú
+8;PacificoBank - Piura;Calle Piura 890, Piura;Sucursal en la ciudad de Piura
+9;IncaCredit - Chiclayo;Av. Balta 432, Chiclayo;Sucursal en la ciudad de Chiclayo
+10;CostaSur - Tacna;Av. Bolognesi 765, Tacna;Sucursal en la ciudad fronteriza de Tacna
+11;MontañaBank - Huaraz;Jirón Huascarán 543, Huaraz;Sucursal en la ciudad de Huaraz, en la región de Áncash
+12;Sucursal Principal Lima;Av. Principal 123, Lima;La sucursal principal en la capital
+13;Sucursal Cusco;Plaza de Armas 456, Cusco;Ubicada en el centro histórico de Cusco
+14;Sucursal Arequipa;Calle Comercio 789, Arequipa;Atendiendo a la comunidad en Arequipa
+15;Sucursal Iquitos;Jirón Amazonas 321, Iquitos;Especializada en servicios para la región amazónica
+16;Sucursal Trujillo;Av. Libertad 567, Trujillo;Atendiendo a la región norte del país
