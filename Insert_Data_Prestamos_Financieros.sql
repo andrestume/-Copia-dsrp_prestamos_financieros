@@ -57,6 +57,8 @@ FROM personas_naturales;
 
 SELECT*FROM sucursales;
 
+EXEC sp_help empleados;
+
 -- Insert Empleados
 
 SELECT*FROM empleados;
@@ -69,8 +71,44 @@ VALUES
 ('12054689','Luis','Flores','Valverde','La victoria-Lima','965832047','lfloresf@gmail.com');
 
 INSERT INTO empleados (persona_id,sucursal_id,supervisor_id,fecha_ingreso)
-VALUES
-(33,)
+VALUES (33,2,NULL,'2024-05-05');
+
+INSERT INTO empleados (persona_id,sucursal_id,supervisor_id,fecha_ingreso)
+VALUES (34,2,SCOPE_IDENTITY(),'2024-05-05');
+
+
+INSERT INTO personas_naturales 
+SELECT
+num_documento,
+nombres,
+apellido_paterno,
+apellido_materno,
+direccion,
+CONCAT('+51',ROUND(RAND()*1000000,0)) AS 'celular',
+TRIM(LOWER(CONCAT(SUBSTRING(nombres,1,1),apellido_paterno,SUBSTRING(apellido_materno,1,1),'@gmail.com'))) AS 'email'
+FROM db_dsrp_gestion_inventario.dbo.empleados;
+
+SELECT*FROM personas_naturales;
+SELECT*FROM empleados;
+
+SELECT*FROM db_dsrp_gestion_inventario.dbo.empleados;
+
+--
+
+INSERT INTO empleados
+SELECT
+pn.id AS 'persona_id',
+12 AS 'sucursal_id',
+e.supervisor_id+152,
+e.fecha_ingreso
+FROM personas_naturales pn
+INNER JOIN db_dsrp_gestion_inventario.dbo.empleados e ON e.num_documento=pn.numero_documento
+WHERE supervisor_id IS NOT NULL;
+
+
+SELECT*FROM  empleados;
+
+
 
 
 
