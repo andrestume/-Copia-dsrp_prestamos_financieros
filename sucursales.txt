@@ -1,0 +1,17 @@
+nombre	telefono	direccion
+La molina	654789123	Av. la molina
+Lima-Cercado	654789124	Av. Alfonso Ugarte
+Banco Central - Lima	654789125	Av. Principal 123, Lima
+AndesBank - Cusco	654789126	Plaza de Armas 456, Cusco
+SolFinanciero - Arequipa	654789127	Calle Comercio 789, Arequipa
+AmazonBank - Iquitos	654789128	Jirón Amazonas 321, Iquitos
+CóndorBanco - Trujillo	654789129	Av. Libertad 567, Trujillo
+PacificoBank - Piura	654789130	Calle Piura 890, Piura
+IncaCredit - Chiclayo	654789131	Av. Balta 432, Chiclayo
+CostaSur - Tacna	654789132	Av. Bolognesi 765, Tacna
+MontañaBank - Huaraz	654789133	Jirón Huascarán 543, Huaraz
+Sucursal Principal Lima	654789134	Av. Principal 123, Lima
+Sucursal Cusco	654789135	Plaza de Armas 456, Cusco
+Sucursal Arequipa	654789136	Calle Comercio 789, Arequipa
+Sucursal Iquitos	654789137	Jirón Amazonas 321, Iquitos
+Sucursal Trujillo	654789138	Av. Libertad 567, Trujillo
