@@ -47,4 +47,6 @@ Listar los préstamos en mora y el oficial de crédito responsable de cada uno.
 Generar un reporte del total de préstamos gestionados por cada sucursal.
 
 
+#MODELO E/R
+![Diagrama E_R prestamos financieros](https://github.com/user-attachments/assets/2ef9b0a1-a4b7-47b9-92c0-840c25d19772)
 
