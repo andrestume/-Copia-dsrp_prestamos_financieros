@@ -1,6 +1,32 @@
 /*Ejercicio 1: Listar Clientes con Préstamos Activos
-Obtén una lista de todos los clientes que tienen préstamos activos. Muestra el nombre completo del cliente, el número de documento y el monto total del préstamo.
+Obtén una lista de todos los clientes que tienen préstamos activos(En Proceso de Pago).
+Muestra el nombre completo del cliente, el número de documento y el monto total del préstamo.
+*/
 
+SELECT 
+	CONCAT(nt.nombres,' ',nt.apellido_paterno,' ',nt.apellido_materno) AS 'Nombre Completo',
+	nt.numero_documento,
+	c.tipo_cliente,
+	SUM(monto) AS 'Monto Total Prestamo'
+FROM clientes c
+INNER JOIN prestamos p ON p.cliente_id=c.id
+INNER JOIN personas_naturales nt ON nt.id=c.persona_id AND c.tipo_cliente='Persona Natural'
+WHERE p.estado_prestamo_id = 4
+GROUP BY nt.nombres,nt.apellido_paterno,nt.apellido_materno,nt.numero_documento,c.tipo_cliente
+UNION
+SELECT 
+	pj.razon_social AS 'Nombre Completo',
+	pj.numero_documento,
+	c.tipo_cliente,
+	SUM(monto) AS 'Monto Total Prestamo'
+FROM clientes c
+INNER JOIN prestamos p ON p.cliente_id=c.id
+INNER JOIN personas_juridicas pj ON pj.id=c.persona_id AND c.tipo_cliente='Persona Jurídica'
+WHERE p.estado_prestamo_id=4
+GROUP BY pj.razon_social,pj.numero_documento,c.tipo_cliente;
+
+
+/*
 Ejercicio 2: Cuotas Pendientes por Cliente
 Genera un informe que muestre el número de cuotas pendientes por cliente. Incluye el nombre completo del cliente, el número de documento y el número de cuotas pendientes.
 
