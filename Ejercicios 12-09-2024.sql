@@ -58,3 +58,37 @@ WHERE plazo_meses<14;
 
 SELECT*FROM prestamos
 WHERE plazo_meses<=14;
+
+-- ENCONTRAR FILAS QUE CUMPLAN CON UNA O MAS CONDICIONES
+
+SELECT*FROM personas_juridicas;
+
+-- Seleccionar las personas Juridicas que se hayan consituido luego del año 2005
+-- ó tengan la letra "h" en su razon social ó su domicilio fiscal sea una avenida.
+
+SELECT*FROM personas_juridicas
+WHERE 
+	YEAR(fecha_constitucion)>'2005' OR
+	razon_social LIKE '%h%' OR
+	domicilio_fiscal LIKE 'Av.%';
+
+UPDATE personas_juridicas SET domicilio_fiscal='AV. Industrial 123'
+WHERE id=2;
+
+-- Seleccionar las personas Juridicas que se hayan consituido luego del año 2005
+-- , tengan la letra "h" en su razon social y su domicilio fiscal sea una avenida.
+
+SELECT*FROM personas_juridicas
+WHERE 
+	YEAR(fecha_constitucion)>'2005' AND
+	razon_social LIKE '%h%' AND
+	domicilio_fiscal like 'Av.%';
+
+-- Seleccionar las personas Juridicas que se hayan consituido luego del año 2005
+-- y tengan la letra "h" en su razon social ó su domicilio fiscal sea una avenida.
+
+SELECT*FROM personas_juridicas
+WHERE 
+	YEAR(fecha_constitucion)>'2005' AND
+	(razon_social LIKE '%h%' OR
+	domicilio_fiscal like 'Av.%');
