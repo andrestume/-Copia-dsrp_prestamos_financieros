@@ -181,3 +181,8 @@ OFFSET 0 ROWS
 FETCH NEXT 1 ROWS ONLY;
     SET @Counter = @Counter + 1
 END
+
+CREATE schema prestamos;
+DROP schema prestamos;
+
+CREATE TABLE prestamos.test(id INT);
