@@ -35,11 +35,65 @@ Calcula el total pagado por cada cliente hasta la fecha. Muestra el nombre compl
 
 Ejercicio 4: Préstamos con Pagos Parciales
 Encuentra los préstamos que tienen al menos una cuota con un pago parcial. Muestra el ID del préstamo, el nombre completo del cliente, la fecha de inicio del préstamo y el monto restante.
-
+*//*
 Ejercicio 5: Empleados con más Préstamos Asignados
-Determina cuáles son los empleados que han gestionado más préstamos como oficiales de crédito. Muestra el nombre del empleado y el número total de préstamos asignados.
+Determina cuáles son los empleados que han gestionado más préstamos como oficiales de crédito.
+Muestra el nombre del empleado y el número total de préstamos asignados.
+*/
+SELECT
+TOP 3
+	CONCAT(nt.nombres,' ',nt.apellido_paterno,' ',nt.apellido_materno) AS 'Nombre Completo',
+	COUNT(p.id) AS 'num_prestamos_asignados'
+FROM empleados e
+	INNER JOIN personas_naturales nt ON nt.id=e.persona_id
+	INNER JOIN prestamos p ON p.oficial_credito_id=e.id
+GROUP BY 
+	nt.nombres,
+	nt.apellido_paterno,
+	nt.apellido_materno
+--HAVING COUNT(p.id)>10
+ORDER BY 2 DESC;
 
-Ejercicio 6: Préstamos por Sucursal
+-- devolver los 3 empleados con mayor cantidad de prestamos asignados
+
+SELECT oficial_credito_id, COUNT(id) AS 'prestamos_asignados'
+INTO #prestamos_asignados
+FROM prestamos
+GROUP BY oficial_credito_id;
+
+SELECT 
+	DISTINCT CONCAT(nt.nombres,' ',nt.apellido_paterno,' ',nt.apellido_materno) AS 'Nombre Completo',
+	pa.prestamos_asignados
+FROM empleados e
+	INNER JOIN personas_naturales nt ON nt.id=e.persona_id
+	INNER JOIN prestamos p ON p.oficial_credito_id=e.id
+	INNER JOIN #prestamos_asignados pa ON pa.oficial_credito_id=e.id
+WHERE pa.prestamos_asignados IN (SELECT 
+					DISTINCT TOP 3 prestamos_asignados
+					FROM #prestamos_asignados
+					ORDER BY prestamos_asignados DESC )
+ORDER BY 2 DESC;
+
+
+SELECT
+TOP 3
+	CONCAT(nt.nombres,' ',nt.apellido_paterno,' ',nt.apellido_materno) AS 'Nombre Completo',
+	COUNT(p.id) AS 'num_prestamos_asignados'
+FROM empleados e
+	INNER JOIN personas_naturales nt ON nt.id=e.persona_id
+	INNER JOIN prestamos p ON p.oficial_credito_id=e.id
+GROUP BY 
+	nt.nombres,
+	nt.apellido_paterno,
+	nt.apellido_materno
+--HAVING COUNT(p.id)>10
+ORDER BY 2 DESC;
+
+
+
+
+/*
+Ejercicio 6: Préstamos por Sucursal ><
 Muestra el total de préstamos activos en cada sucursal. Incluye el nombre de la sucursal y la suma de los montos de los préstamos.
 
 Ejercicio 7: Cuotas Vencidas por Préstamo

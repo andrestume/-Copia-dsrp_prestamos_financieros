@@ -8,7 +8,40 @@ Ejercicio 3: Métodos de Pago Activos
 Obtén una lista de todos los métodos de pago que están activos.
 
 Ejercicio 4: Préstamos por Cliente
-Muestra el ID del préstamo, el nombre completo del cliente y el monto de cada préstamo.
+Muestra el ID del préstamo, el nombre completo del cliente y el monto de cada préstamo.*/
+SELECT*FROM clientes;
+
+
+SELECT 
+	p.id AS 'prestamo_id',
+	CONCAT(cl.tipo_cliente,'-',nt.apellido_paterno,' ',nt.apellido_materno,' ', nt.nombres) AS 'Cliente',
+	--ISNULL(nt.apellido_paterno,'') +' '+nt.apellido_materno+' '+ nt.nombres,
+	p.monto
+INTO #clientes
+FROM clientes cl
+	INNER JOIN prestamos p ON p.cliente_id=cl.id
+	INNER JOIN personas_naturales nt ON nt.id=cl.persona_id AND cl.tipo_cliente='Persona Natural'
+UNION
+SELECT 
+	p.id AS 'prestamo_id',
+	CONCAT(cl.tipo_cliente,'-',pj.razon_social) AS 'Cliente',
+	--ISNULL(nt.apellido_paterno,'') +' '+nt.apellido_materno+' '+ nt.nombres,
+	p.monto
+FROM clientes cl
+	INNER JOIN prestamos p ON p.cliente_id=cl.id
+	INNER JOIN personas_juridicas pj ON pj.id=cl.persona_id AND cl.tipo_cliente='Persona Jurídica'
+ORDER BY 2 ASC;
+
+-- Crear una tabla temporal y calcular el prestamo total(sumar todos sus prestamos registrados) de cada cliente
+SELECT
+	Cliente,
+	SUM(monto) AS 'prestamo_acumulado'
+FROM  #clientes
+GROUP BY Cliente
+ORDER BY 2 DESC;
+
+
+/*
 
 Ejercicio 5: Empleados y Sucursales
 Genera una lista de todos los empleados mostrando el nombre completo del empleado y el nombre de la sucursal donde trabaja.
