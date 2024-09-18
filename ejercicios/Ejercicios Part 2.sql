@@ -41,7 +41,6 @@ Determina cuáles son los empleados que han gestionado más préstamos como oficial
 Muestra el nombre del empleado y el número total de préstamos asignados.
 */
 SELECT
-TOP 3
 	CONCAT(nt.nombres,' ',nt.apellido_paterno,' ',nt.apellido_materno) AS 'Nombre Completo',
 	COUNT(p.id) AS 'num_prestamos_asignados'
 FROM empleados e
@@ -90,6 +89,35 @@ GROUP BY
 ORDER BY 2 DESC;
 
 
+-- Ejemplo LEFT JOINT AND RIGTH JOIN
+--LEFT JOIN
+SELECT 
+	nt.numero_documento, 
+	cl.id, 
+	cl.persona_id,
+	nt.id AS 'persona_natural_id',
+	CASE WHEN cl.id IS NULL THEN 'No es cliente' ELSE 'Si es cliente' END 'es_cliente'
+FROM personas_naturales nt
+LEFT JOIN clientes cl ON cl.persona_id=nt.id AND cl.tipo_cliente='Persona Natural';
+
+--RIGTH JOIN
+SELECT 
+	nt.numero_documento, 
+	cl.id, 
+	cl.persona_id,
+	nt.id AS 'persona_natural_id',
+	CASE WHEN nt.id IS NULL THEN 'No es Persona Natural' ELSE 'Si es Presona natural' END 'es_cliente'
+FROM personas_naturales nt
+RIGHT JOIN clientes cl ON cl.persona_id=nt.id AND cl.tipo_cliente='Persona Natural';
+
+--INNER JOIN
+SELECT 
+	nt.numero_documento, 
+	cl.id, 
+	cl.persona_id,
+	nt.id AS 'persona_natural_id'
+FROM personas_naturales nt
+INNER JOIN clientes cl ON cl.persona_id=nt.id AND cl.tipo_cliente='Persona Natural';
 
 
 /*
