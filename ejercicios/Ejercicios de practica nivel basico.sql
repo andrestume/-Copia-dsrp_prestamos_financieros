@@ -35,7 +35,7 @@ ORDER BY 2 ASC;
 -- Crear una tabla temporal y calcular el prestamo total(sumar todos sus prestamos registrados) de cada cliente
 SELECT
 	Cliente,
-	SUM(monto) AS 'prestamo_acumulado'
+	SUM(monto) AS 'prestamo'
 FROM  #clientes
 GROUP BY Cliente
 ORDER BY 2 DESC;

@@ -122,8 +122,32 @@ INNER JOIN clientes cl ON cl.persona_id=nt.id AND cl.tipo_cliente='Persona Natur
 
 /*
 Ejercicio 6: Préstamos por Sucursal ><
-Muestra el total de préstamos activos en cada sucursal. Incluye el nombre de la sucursal y la suma de los montos de los préstamos.
+Muestra el total de préstamos activos en cada sucursal. 
+Incluye el nombre de la sucursal y la suma de los montos de los préstamos.
+*/
 
+SELECT*FROM estados_prestamo;
+SELECT*FROM sucursales;
+SELECT*FROM empleados WHERE supervisor_id IS NULL;
+
+SELECT 
+	s.nombre AS 'Sucursal',
+	CONCAT(nt.nombres,' ',nt.apellido_paterno,' ',nt.apellido_materno) AS 'Gerente',
+	COUNT(p.id) AS 'num_prestamos_activos',
+	SUM(monto) AS 'monto_total_en_prestamo'
+FROM prestamos p
+	INNER JOIN sucursales s ON p.sucursal_id=s.id
+	INNER JOIN empleados e ON e.id=s.gerente_id
+	INNER JOIN personas_naturales nt ON nt.id=e.persona_id
+WHERE p.estado_prestamo_id=4
+GROUP BY 
+	s.nombre,
+	nt.nombres,
+	nt.apellido_paterno,
+	nt.apellido_materno
+ORDER BY 4 DESC;
+
+/*
 Ejercicio 7: Cuotas Vencidas por Préstamo
 Obtén una lista de todos los préstamos que tienen cuotas vencidas. Muestra el ID del préstamo, el nombre del cliente, la fecha de inicio del préstamo, el número de cuotas vencidas y el monto total vencido.
 
