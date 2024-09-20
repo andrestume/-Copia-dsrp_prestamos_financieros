@@ -134,8 +134,9 @@ SELECT*FROM prestamos;
 
 DECLARE @Counter INT
 SET @Counter = 0
+DECLARE @id INT
 
-WHILE @Counter < 500
+WHILE @Counter < 1000
 BEGIN
 INSERT INTO prestamos (cliente_id,sucursal_id,tipo_prestamo_id,oficial_credito_id,estado_prestamo_id,monto,tasa_interes,plazo_meses,fecha_inicio)
 SELECT 
@@ -155,12 +156,22 @@ FROM clientes c
 ORDER BY NEWID()
 OFFSET 0 ROWS
 FETCH NEXT 1 ROWS ONLY;
+	SET @id = SCOPE_IDENTITY()
+	EXEC SP_KV_INSERTAR_CUOTAS @id
     SET @Counter = @Counter + 1
 END
 
+
+DELETE FROM cuotas;
+DELETE FROM prestamos;
+
+--Reiniciar Id
+DBCC CHECKIDENT('cuotas' , RESEED, 1);
+DBCC CHECKIDENT('prestamos' , RESEED, 1);
 -- Inserción en la tabla cuotas
 
 SELECT*FROM cuotas;
+SELECT*FROM prestamos;
 
 DECLARE @Counter INT
 SET @Counter = 0
