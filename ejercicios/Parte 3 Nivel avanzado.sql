@@ -1,5 +1,33 @@
 /*Ejercicio 1: Análisis de Tasa de Interés y Monto de Préstamos
-Obtén un informe que muestre la relación entre la tasa de interés y el monto del préstamo para todos los préstamos desembolsados. Muestra la desviación estándar, promedio y varianza de la tasa de interés por rango de montos de préstamo (ej: menores de $10,000, entre $10,000 y $50,000, mayores de $50,000).
+Obtén un informe que muestre la relación entre la tasa de interés y el monto del préstamo para todos los
+préstamos desembolsados. Muestra la desviación estándar, promedio y varianza de la tasa de interés por rango de montos de préstamo (ej: menores de $10,000, entre $10,000 y $50,000, mayores de $50,000).
+
+*/
+--Forma 1
+SELECT 
+	'Menores a 10000' AS 'Rango',
+	STDEV(tasa_interes) AS 'desviación_estandar',
+	AVG(tasa_interes) AS 'promedio',
+	VAR(tasa_interes) AS 'Varianza'
+FROM prestamos
+WHERE monto<'10000'
+UNION
+SELECT 
+	'Entre 10000 y 50000' AS 'Rango',
+	STDEV(tasa_interes) AS 'desviación_estandar',
+	AVG(tasa_interes) AS 'promedio',
+	VAR(tasa_interes) AS 'Varianza'
+FROM prestamos
+WHERE monto BETWEEN '10000' AND '50000'
+UNION
+SELECT 
+	'Mayores a 50000' AS 'Rango',
+	STDEV(tasa_interes) AS 'desviación_estandar',
+	AVG(tasa_interes) AS 'promedio',
+	VAR(tasa_interes) AS 'Varianza'
+FROM prestamos
+WHERE monto >'50000';
+/*
 
 Ejercicio 2: Historial Completo de un Cliente
 Genera un historial completo de transacciones y préstamos para un cliente específico. Muestra todos los préstamos asociados a este cliente, todas las cuotas y pagos realizados, así como los saldos restantes y cualquier cuota vencida.
