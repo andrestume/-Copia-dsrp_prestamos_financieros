@@ -197,3 +197,34 @@ CREATE schema prestamos;
 DROP schema prestamos;
 
 CREATE TABLE prestamos.test(id INT);
+
+-- Insertar Pagos
+
+DECLARE @Counter INT
+DECLARE @id_cuota INT
+DECLARE @id_pago INT
+SET @Counter = 0
+
+WHILE @Counter < 5285
+BEGIN
+INSERT INTO pagos(metodo_pago_id,codigo_operacion,monto_pagado,fecha_pago,created_at,created_by)
+SELECT 
+  ROUND(RAND()*5,0)+1 AS 'metodo_pago_id',
+  CONCAT(c.id,'-',ROUND(RAND()*100000+1,0)) AS 'codigo_operacion',
+  CASE WHEN c.estado_cuota_id =3 THEN c.monto_cuota/(ROUND(RAND()*2,0)+2) ELSE c.monto_cuota END AS 'monto_pagado',
+  DATEADD(DAY,-ROUND(RAND()*20,0),c.fecha_vencimiento) AS 'fecha_pago',
+  DATEADD(DAY,-ROUND(RAND()*20,0),c.fecha_vencimiento) AS 'created_at',
+  ROUND(RAND()*4,0)+1 AS 'created_by'
+FROM cuotas c
+WHERE c.estado_cuota_id NOT IN(1,4,5,7,6,9,8)
+ORDER BY NEWID()
+OFFSET 0 ROWS
+FETCH NEXT 1 ROWS ONLY;
+    SET @Counter = @Counter + 1
+END
+
+SELECT*FROM detalles_cuotas_pagos;
+
+SELECT*FROM estados_cuota;--1,4,5,6,9
+
+SELECT*FROM cuotas WHERE estado_cuota_id NOT IN  (1,4,5,7,6,9,8)
