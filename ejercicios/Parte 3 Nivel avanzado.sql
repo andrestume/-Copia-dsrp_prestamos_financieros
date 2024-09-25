@@ -1,3 +1,5 @@
+USE dsrp_prestamos_financieros;
+
 /*Ejercicio 1: Análisis de Tasa de Interés y Monto de Préstamos
 Obtén un informe que muestre la relación entre la tasa de interés y el monto del préstamo para todos los
 préstamos desembolsados. Muestra la desviación estándar, promedio y varianza de la tasa de interés por rango de montos de préstamo (ej: menores de $10,000, entre $10,000 y $50,000, mayores de $50,000).
@@ -30,7 +32,12 @@ WHERE monto >'50000';
 /*
 
 Ejercicio 2: Historial Completo de un Cliente
-Genera un historial completo de transacciones y préstamos para un cliente específico. Muestra todos los préstamos asociados a este cliente, todas las cuotas y pagos realizados, así como los saldos restantes y cualquier cuota vencida.
+Genera un historial completo de transacciones y préstamos para un cliente específico. 
+Muestra todos los préstamos asociados a este cliente, todas las cuotas y pagos realizados, 
+así como los saldos restantes y cualquier cuota vencida.*/
+
+
+/*
 
 Ejercicio 3: Impacto de la Mora en el Monto Total Pagado
 Analiza el impacto de las cuotas vencidas en el monto total pagado por los clientes. Compara el total pagado entre clientes con cuotas vencidas y clientes sin cuotas vencidas, mostrando diferencias porcentuales y absolutas.
@@ -51,7 +58,45 @@ Ejercicio 8: Análisis de Pagos Parciales
 Obtén una lista de todos los préstamos con pagos parciales y muestra qué porcentaje del monto total de la cuota ha sido cubierto. Calcula también el total pendiente por cuota y por préstamo.
 
 Ejercicio 9: Empleados con Mejores Resultados en Gestión de Créditos
-Identifica cuáles empleados han gestionado el mayor número de préstamos con cuotas completamente pagadas sin mora. Muestra el nombre del empleado, la sucursal y el número de préstamos exitosos gestionados.
+Identifica cuáles empleados han gestionado el mayor número de préstamos con cuotas completamente pagadas sin mora.
+Muestra el nombre del empleado y el nombre de su supervisor, la sucursal y el número de préstamos exitosos gestionados.*/
+SELECT c.prestamo_id,c.id AS 'cuota_id',c.monto_cuota,p.monto_pagado
+FROM cuotas c
+INNER JOIN detalles_cuotas_pagos dcp ON dcp.cuota_id=c.id
+INNER JOIN pagos p ON p.id=dcp.pago_id;
+
+SELECT DISTINCT 
+	s.nombre AS 'Sucursal',
+	CONCAT(nt.nombres,' ',nt.apellido_paterno,' ',nt.apellido_materno) AS 'empleado',
+	CONCAT(nts.nombres,' ',nts.apellido_paterno,' ',nts.apellido_materno) AS 'empleado_supervisor',
+	COUNT(p.id) AS 'num_prestamos'
+FROM empleados e 
+	INNER JOIN sucursales s ON s.id=e.sucursal_id
+	INNER JOIN personas_naturales nt ON nt.id=e.persona_id
+	INNER JOIN empleados es ON es.id=e.supervisor_id --AND es.supervisor_id IS NULL
+	INNER JOIN personas_naturales nts ON nts.id=es.persona_id
+	INNER JOIN prestamos p ON p.oficial_credito_id=e.id
+	INNER JOIN cuotas c ON c.prestamo_id=p.id
+WHERE 
+	p.estado_prestamo_id=5 AND
+	c.estado_cuota_id=2 
+GROUP BY 
+	s.nombre,
+	nt.nombres,
+	nt.apellido_paterno,
+	nt.apellido_materno,
+	nts.nombres,
+	nts.apellido_paterno,
+	nts.apellido_materno;
+	
+
+SELECT*FROM estados_prestamo;
+SELECT*FROM estados_cuota;
+SELECT*FROM cuotas;
+SELECT*FROM pagos;
+
+
+/*
 
 Ejercicio 10: Comparación de Préstamos por Tipos de Clientes
 Realiza una comparación entre personas naturales y personas jurídicas en términos del monto promedio de los préstamos solicitados, tasa de interés aplicada y porcentaje de cuotas vencidas. Muestra las diferencias entre estos dos tipos de clientes en un informe consolidado.
